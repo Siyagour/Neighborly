@@ -30,6 +30,7 @@ import com.neighborly.app.ui.profile.ProfileScreen
 import com.neighborly.app.ui.profile.ProfileViewModel
 import com.neighborly.app.ui.provider.IncomingRequestsScreen
 import com.neighborly.app.ui.provider.ProviderDashboardScreen
+import com.neighborly.app.ui.provider.ProviderHistoryScreen
 import com.neighborly.app.ui.provider.ProviderViewModel
 import com.neighborly.app.ui.provider.SlotManagerScreen
 
@@ -155,6 +156,9 @@ fun AppNavigation(repository: MarketplaceRepository) {
                         },
                         onNavigateToIncomingRequests = {
                             navController.navigate(Screen.IncomingRequests.route)
+                        },
+                        onNavigateToHistory = {
+                            navController.navigate(Screen.ProviderHistory.route)
                         }
                     )
                 }
@@ -168,6 +172,13 @@ fun AppNavigation(repository: MarketplaceRepository) {
 
                 composable(Screen.IncomingRequests.route) {
                     IncomingRequestsScreen(
+                        viewModel = providerViewModel,
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
+
+                composable(Screen.ProviderHistory.route) {
+                    ProviderHistoryScreen(
                         viewModel = providerViewModel,
                         onBackClick = { navController.popBackStack() }
                     )

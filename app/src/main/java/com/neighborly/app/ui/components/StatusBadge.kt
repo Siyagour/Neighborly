@@ -42,6 +42,8 @@ fun StatusBadge(
         color = textColor,
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
+        maxLines = 1,
+        softWrap = false,
         modifier = modifier
             .background(bgColor, RoundedCornerShape(12.dp))
             .padding(horizontal = 10.dp, vertical = 4.dp)

@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Badge
@@ -44,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -67,7 +69,8 @@ import com.neighborly.app.ui.theme.TextSecondary
 fun ProviderDashboardScreen(
     viewModel: ProviderViewModel,
     onNavigateToSlotManager: () -> Unit,
-    onNavigateToIncomingRequests: () -> Unit
+    onNavigateToIncomingRequests: () -> Unit,
+    onNavigateToHistory: () -> Unit
 ) {
     val provider by viewModel.activeProvider.collectAsState()
     val metrics by viewModel.metrics.collectAsState()
@@ -235,11 +238,11 @@ fun ProviderDashboardScreen(
             }
         }
 
-        // 3. Action Navigation Buttons
+        // 3. Action Navigation Buttons (Requests, Slots, History)
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // Incoming Requests button with badge
                 Card(
@@ -249,43 +252,35 @@ fun ProviderDashboardScreen(
                         .weight(1f)
                         .clickable { onNavigateToIncomingRequests() }
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        BadgedBox(
+                            badge = {
+                                if (incomingRequests.isNotEmpty()) {
+                                    Badge(containerColor = PrimaryIndigo) {
+                                        Text(text = incomingRequests.size.toString(), color = Color.White)
+                                    }
+                                }
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Notifications,
                                 contentDescription = "Requests",
                                 tint = PrimaryIndigo,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "Requests",
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = DeepNavy
+                                modifier = Modifier.size(22.dp)
                             )
                         }
-                        if (incomingRequests.isNotEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .background(PrimaryIndigo)
-                                    .padding(horizontal = 8.dp, vertical = 2.dp)
-                            ) {
-                                Text(
-                                    text = incomingRequests.size.toString(),
-                                    color = Color.White,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "Requests",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = DeepNavy
+                        )
                     }
                 }
 
@@ -297,22 +292,52 @@ fun ProviderDashboardScreen(
                         .weight(1f)
                         .clickable { onNavigateToSlotManager() }
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
                             imageVector = Icons.Default.CalendarMonth,
                             contentDescription = "Slots",
                             tint = DeepNavy,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(22.dp)
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Slot Manager",
-                            fontSize = 13.sp,
+                            text = "Slots",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = DeepNavy
+                        )
+                    }
+                }
+
+                // History button
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = SoftLavender),
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onNavigateToHistory() }
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.History,
+                            contentDescription = "History",
+                            tint = DeepNavy,
+                            modifier = Modifier.size(22.dp)
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "History",
+                            fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = DeepNavy
                         )
@@ -363,12 +388,14 @@ fun ProviderDashboardScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = job.subServiceName,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = DeepNavy
+                                    color = DeepNavy,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                                 Text(
                                     text = "${job.customerName} • ${job.slotTime}",
@@ -376,6 +403,7 @@ fun ProviderDashboardScreen(
                                     color = TextSecondary
                                 )
                             }
+                            Spacer(modifier = Modifier.width(8.dp))
                             StatusBadge(status = job.status)
                         }
 

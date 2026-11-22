@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,6 +40,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neighborly.app.ui.theme.CardBorderStroke
+import com.neighborly.app.ui.theme.CrimsonLight
+import com.neighborly.app.ui.theme.CrimsonRed
 import com.neighborly.app.ui.theme.DeepNavy
 import com.neighborly.app.ui.theme.EmeraldGreen
 import com.neighborly.app.ui.theme.EmeraldLight
@@ -68,7 +71,8 @@ fun SlotManagerScreen(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
+                modifier = Modifier.statusBarsPadding()
             )
         }
     ) { padding ->
@@ -91,8 +95,9 @@ fun SlotManagerScreen(
                         fontWeight = FontWeight.Bold,
                         color = DeepNavy
                     )
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Toggle slots ON to make them open for booking, or OFF to block for personal time.",
+                        text = "Tap any unbooked slot or switch to instantly mark as Open (Green) or Blocked (Red).",
                         fontSize = 12.sp,
                         color = TextSecondary
                     )
@@ -106,20 +111,32 @@ fun SlotManagerScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(slots, key = { it.id }) { slot ->
-                    val isAvailable = !slot.isBooked && !slot.isBlockedByProvider
+                    val isBlocked = slot.isBlockedByProvider
+                    val isBooked = slot.isBooked
 
                     Card(
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = when {
-                                slot.isBooked -> Color(0xFFF3F4F6)
-                                slot.isBlockedByProvider -> Color(0xFFFAFAFA)
+                                isBooked -> Color(0xFFF3F4F6)
+                                isBlocked -> CrimsonLight.copy(alpha = 0.4f)
                                 else -> Color.White
                             }
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, CardBorderStroke, RoundedCornerShape(16.dp))
+                            .border(
+                                1.dp,
+                                when {
+                                    isBooked -> CardBorderStroke
+                                    isBlocked -> CrimsonLight
+                                    else -> CardBorderStroke
+                                },
+                                RoundedCornerShape(16.dp)
+                            )
+                            .clickable(enabled = !isBooked) {
+                                viewModel.setSlotBlocked(slot.id, !isBlocked)
+                            }
                     ) {
                         Row(
                             modifier = Modifier
@@ -128,38 +145,41 @@ fun SlotManagerScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = slot.slotTime,
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (slot.isBooked) TextSecondary else DeepNavy
+                                    color = if (isBooked) TextSecondary else DeepNavy
                                 )
+                                Spacer(modifier = Modifier.height(2.dp))
                                 Text(
                                     text = when {
-                                        slot.isBooked -> "🔒 Booked by Customer"
-                                        slot.isBlockedByProvider -> "⛔ Blocked by You"
+                                        isBooked -> "🔒 Booked"
+                                        isBlocked -> "⛔ Blocked by You"
                                         else -> "🟢 Open for Booking"
                                     },
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
                                     color = when {
-                                        slot.isBooked -> PrimaryIndigo
-                                        slot.isBlockedByProvider -> TextSecondary
+                                        isBooked -> PrimaryIndigo
+                                        isBlocked -> CrimsonRed
                                         else -> EmeraldGreen
                                     }
                                 )
                             }
 
-                            if (!slot.isBooked) {
+                            if (!isBooked) {
                                 Switch(
-                                    checked = !slot.isBlockedByProvider,
-                                    onCheckedChange = { isAvailableNew ->
-                                        viewModel.toggleSlotBlocked(slot.id, !isAvailableNew)
+                                    checked = !isBlocked,
+                                    onCheckedChange = { isOpenNew ->
+                                        viewModel.setSlotBlocked(slot.id, !isOpenNew)
                                     },
                                     colors = SwitchDefaults.colors(
                                         checkedThumbColor = Color.White,
-                                        checkedTrackColor = EmeraldGreen
+                                        checkedTrackColor = EmeraldGreen,
+                                        uncheckedThumbColor = Color.White,
+                                        uncheckedTrackColor = CrimsonRed
                                     )
                                 )
                             } else {
@@ -167,11 +187,11 @@ fun SlotManagerScreen(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(SoftLavender)
-                                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                                        .padding(horizontal = 10.dp, vertical = 6.dp)
                                 ) {
                                     Text(
-                                        text = "Active Job",
-                                        fontSize = 11.sp,
+                                        text = "Booked",
+                                        fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold,
                                         color = PrimaryIndigo
                                     )
@@ -184,4 +204,3 @@ fun SlotManagerScreen(
         }
     }
 }
-

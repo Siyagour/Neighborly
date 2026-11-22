@@ -200,6 +200,10 @@ class MarketplaceRepository(private val db: AppDatabase) {
         providerDao.updateOnlineStatus(providerId, isOnline)
     }
 
+    suspend fun setSlotBlocked(slotId: Long, isBlocked: Boolean) = withContext(Dispatchers.IO) {
+        slotDao.updateBlockedStatus(slotId, isBlocked)
+    }
+
     suspend fun toggleSlotBlocked(slotId: Long, currentBlocked: Boolean) = withContext(Dispatchers.IO) {
         slotDao.updateBlockedStatus(slotId, !currentBlocked)
     }

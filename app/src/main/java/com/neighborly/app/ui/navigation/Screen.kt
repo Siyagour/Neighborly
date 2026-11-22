@@ -14,6 +14,7 @@ sealed class Screen(val route: String) {
     object ProviderDashboard : Screen("provider_dashboard")
     object SlotManager : Screen("slot_manager")
     object IncomingRequests : Screen("incoming_requests")
+    object ProviderHistory : Screen("provider_history")
 
     object Profile : Screen("profile")
 }

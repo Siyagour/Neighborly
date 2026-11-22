@@ -25,7 +25,7 @@ import com.neighborly.app.data.local.entity.UserAccountEntity
         BookingEntity::class,
         ReviewEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

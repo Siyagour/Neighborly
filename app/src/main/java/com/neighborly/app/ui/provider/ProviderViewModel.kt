@@ -61,6 +61,14 @@ class ProviderViewModel(
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    val historyBookings: StateFlow<List<BookingEntity>> = providerBookings.map { bookings ->
+        bookings.filter {
+            it.status == BookingStatus.COMPLETED.label ||
+                    it.status == BookingStatus.CANCELLED.label ||
+                    it.status == BookingStatus.DECLINED.label
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     val metrics: StateFlow<ProviderMetrics> = providerBookings.map { bookings ->
         val completed = bookings.filter { it.status == BookingStatus.COMPLETED.label }
         val active = bookings.filter {
@@ -78,9 +86,9 @@ class ProviderViewModel(
             activeProvider.value?.rating ?: 4.8f
         }
         ProviderMetrics(
-            totalEarningsInr = earnings + 4500, // Include historical base earnings
+            totalEarningsInr = earnings,
             activeJobsCount = active.size,
-            completedJobsCount = completed.size + 12,
+            completedJobsCount = completed.size,
             averageRating = Math.round(avgRating * 10f) / 10f
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProviderMetrics())
@@ -91,9 +99,15 @@ class ProviderViewModel(
         }
     }
 
+    fun setSlotBlocked(slotId: Long, isBlocked: Boolean) {
+        viewModelScope.launch {
+            repository.setSlotBlocked(slotId, isBlocked)
+        }
+    }
+
     fun toggleSlotBlocked(slotId: Long, currentBlocked: Boolean) {
         viewModelScope.launch {
-            repository.toggleSlotBlocked(slotId, currentBlocked)
+            repository.setSlotBlocked(slotId, !currentBlocked)
         }
     }
 
