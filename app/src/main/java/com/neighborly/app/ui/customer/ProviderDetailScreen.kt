@@ -19,8 +19,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.automirrored.rounded.ReceiptLong
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -177,7 +180,7 @@ fun ProviderDetailScreen(
                                     if (provider.isVerified) {
                                         Spacer(modifier = Modifier.width(4.dp))
                                         Icon(
-                                            imageVector = Icons.Default.CheckCircle,
+                                            imageVector = Icons.Rounded.CheckCircle,
                                             contentDescription = "Verified",
                                             tint = EmeraldGreen,
                                             modifier = Modifier.size(18.dp)
@@ -191,11 +194,22 @@ fun ProviderDetailScreen(
                                     fontWeight = FontWeight.Medium,
                                     color = PrimaryIndigo
                                 )
-                                Text(
-                                    text = "📍 ${provider.area} (${provider.distanceKm} km away)",
-                                    fontSize = 12.sp,
-                                    color = TextSecondary
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.LocationOn,
+                                        contentDescription = null,
+                                        tint = TextSecondary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Text(
+                                        text = "${provider.area} (${provider.distanceKm} km away)",
+                                        fontSize = 12.sp,
+                                        color = TextSecondary
+                                    )
+                                }
                             }
                         }
 
@@ -212,21 +226,34 @@ fun ProviderDetailScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "⏱ ${provider.responseTimeMins} mins",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = DeepNavy
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Schedule,
+                                        contentDescription = null,
+                                        tint = PrimaryIndigo,
+                                        modifier = Modifier.size(15.dp)
+                                    )
+                                    Text(
+                                        text = "${provider.responseTimeMins} mins",
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = DeepNavy
+                                    )
+                                }
                                 Text("Response Time", fontSize = 11.sp, color = TextSecondary)
                             }
 
                             Box(modifier = Modifier.width(1.dp).height(28.dp).background(CardBorderStroke))
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(imageVector = Icons.Default.Star, contentDescription = null, tint = AmberStar, modifier = Modifier.size(16.dp))
-                                    Spacer(modifier = Modifier.width(2.dp))
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Icon(imageVector = Icons.Rounded.Star, contentDescription = null, tint = AmberStar, modifier = Modifier.size(16.dp))
                                     Text("${provider.rating}", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = DeepNavy)
                                 }
                                 Text("${provider.reviewCount} Reviews", fontSize = 11.sp, color = TextSecondary)
@@ -263,12 +290,23 @@ fun ProviderDetailScreen(
                         .border(1.dp, CardBorderStroke, RoundedCornerShape(20.dp))
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
-                        Text(
-                            text = "📋 Transparent Rate Card",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = DeepNavy
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ReceiptLong,
+                                contentDescription = null,
+                                tint = DeepNavy,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Text(
+                                text = "Transparent Rate Card",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = DeepNavy
+                            )
+                        }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Visiting fee includes 30 mins diagnostics. Extra labor/parts charged fairly as per estimates below.",

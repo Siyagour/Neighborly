@@ -22,6 +22,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Engineering
+import androidx.compose.material.icons.rounded.HourglassEmpty
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -224,11 +228,22 @@ fun MyBookingsScreen(
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(
-                                            text = "⏳ Waiting for professional to accept...",
-                                            fontSize = 12.sp,
-                                            color = TextSecondary
-                                        )
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.HourglassEmpty,
+                                                contentDescription = null,
+                                                tint = TextSecondary,
+                                                modifier = Modifier.size(14.dp)
+                                            )
+                                            Text(
+                                                text = "Waiting for professional to accept...",
+                                                fontSize = 12.sp,
+                                                color = TextSecondary
+                                            )
+                                        }
                                         OutlinedButton(
                                             onClick = { viewModel.cancelBooking(booking.id) },
                                             shape = RoundedCornerShape(10.dp)
@@ -298,12 +313,21 @@ fun MyBookingsScreen(
                                             .padding(10.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Text(
-                                            text = "⚡ Job currently in progress by $providerName",
-                                            fontSize = 12.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = Color(0xFF92400E)
-                                        )
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Engineering,
+                                                contentDescription = null,
+                                                tint = Color(0xFF92400E),
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Spacer(modifier = Modifier.width(6.dp))
+                                            Text(
+                                                text = "Job currently in progress by $providerName",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Color(0xFF92400E)
+                                            )
+                                        }
                                     }
                                 }
 
@@ -330,12 +354,23 @@ fun MyBookingsScreen(
                                                     color = DeepNavy
                                                 )
                                                 if (booking.isRevisedQuoteApproved) {
-                                                    Text(
-                                                        text = "✓ Approved by You",
-                                                        fontSize = 11.sp,
-                                                        fontWeight = FontWeight.Bold,
-                                                        color = EmeraldGreen
-                                                    )
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically,
+                                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.CheckCircle,
+                                                            contentDescription = null,
+                                                            tint = EmeraldGreen,
+                                                            modifier = Modifier.size(14.dp)
+                                                        )
+                                                        Text(
+                                                            text = "Approved by You",
+                                                            fontSize = 11.sp,
+                                                            fontWeight = FontWeight.Bold,
+                                                            color = EmeraldGreen
+                                                        )
+                                                    }
                                                 }
                                             }
 
@@ -397,7 +432,19 @@ fun MyBookingsScreen(
                                         } else {
                                             Column(horizontalAlignment = Alignment.End) {
                                                 StarRatingBar(rating = booking.rating ?: 5f, starSize = 14.dp)
-                                                Text(text = "Reviewed ✓", fontSize = 11.sp, color = EmeraldGreen, fontWeight = FontWeight.Bold)
+                                                Spacer(modifier = Modifier.height(2.dp))
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    horizontalArrangement = Arrangement.spacedBy(2.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.Check,
+                                                        contentDescription = null,
+                                                        tint = EmeraldGreen,
+                                                        modifier = Modifier.size(12.dp)
+                                                    )
+                                                    Text(text = "Reviewed", fontSize = 11.sp, color = EmeraldGreen, fontWeight = FontWeight.Bold)
+                                                }
                                             }
                                         }
                                     }

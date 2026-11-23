@@ -16,13 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,10 +38,8 @@ import com.neighborly.app.ui.theme.AmberStar
 import com.neighborly.app.ui.theme.CardBorderStroke
 import com.neighborly.app.ui.theme.DeepNavy
 import com.neighborly.app.ui.theme.EmeraldGreen
-import com.neighborly.app.ui.theme.EmeraldLight
 import com.neighborly.app.ui.theme.PrimaryIndigo
 import com.neighborly.app.ui.theme.SoftLavender
-import com.neighborly.app.ui.theme.TextPrimary
 import com.neighborly.app.ui.theme.TextSecondary
 
 @Composable
@@ -99,7 +97,7 @@ fun ProviderCard(
                         if (provider.isVerified) {
                             Spacer(modifier = Modifier.width(4.dp))
                             Icon(
-                                imageVector = Icons.Default.CheckCircle,
+                                imageVector = Icons.Rounded.CheckCircle,
                                 contentDescription = "Verified",
                                 tint = EmeraldGreen,
                                 modifier = Modifier.size(16.dp)
@@ -155,12 +153,23 @@ fun ProviderCard(
             ) {
                 // Column 1: Response Time
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "⏱ ${provider.responseTimeMins} mins",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = DeepNavy
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Schedule,
+                            contentDescription = "Response Time",
+                            tint = PrimaryIndigo,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text(
+                            text = "${provider.responseTimeMins} mins",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = DeepNavy
+                        )
+                    }
                     Text(
                         text = "Response",
                         fontSize = 10.sp,
@@ -177,14 +186,16 @@ fun ProviderCard(
 
                 // Column 2: Rating
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Icon(
-                            imageVector = Icons.Default.Star,
+                            imageVector = Icons.Rounded.Star,
                             contentDescription = "Rating",
                             tint = AmberStar,
                             modifier = Modifier.size(14.dp)
                         )
-                        Spacer(modifier = Modifier.width(2.dp))
                         Text(
                             text = "${provider.rating}",
                             fontSize = 13.sp,
@@ -229,18 +240,29 @@ fun ProviderCard(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Action row: Bio snippet & Book Now CTA
+            // Action row: Online Status indicator & Book Slot CTA
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = if (provider.isOnline) "🟢 Available Today" else "⚪ Offline",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = if (provider.isOnline) EmeraldGreen else TextSecondary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(if (provider.isOnline) EmeraldGreen else Color(0xFF9CA3AF))
+                    )
+                    Text(
+                        text = if (provider.isOnline) "Available Today" else "Offline",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = if (provider.isOnline) EmeraldGreen else TextSecondary
+                    )
+                }
 
                 Button(
                     onClick = onBookClick,
@@ -258,4 +280,3 @@ fun ProviderCard(
         }
     }
 }
-

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -109,12 +110,24 @@ fun ProviderDashboardScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(
-                            text = if (provider?.isOnline == true) "🟢 Online & Accepting Jobs" else "⚪ Offline",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (provider?.isOnline == true) EmeraldGreen else TextSecondary
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .clip(CircleShape)
+                                    .background(if (provider?.isOnline == true) EmeraldGreen else Color(0xFF9CA3AF))
+                            )
+                            Text(
+                                text = if (provider?.isOnline == true) "Online & Accepting Jobs" else "Offline",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if (provider?.isOnline == true) EmeraldGreen else TextSecondary
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = if (provider?.isOnline == true) "Visible to nearby Udaipur customers" else "You are not receiving new requests",
                             fontSize = 12.sp,

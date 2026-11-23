@@ -24,6 +24,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -129,12 +132,23 @@ fun AuthScreen(
                             .padding(vertical = 10.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = "👤 User",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (isCustomer) Color.White else DeepNavy
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Person,
+                                contentDescription = null,
+                                tint = if (isCustomer) Color.White else DeepNavy,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Text(
+                                text = "User",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if (isCustomer) Color.White else DeepNavy
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.width(4.dp))
@@ -148,12 +162,23 @@ fun AuthScreen(
                             .padding(vertical = 10.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = "🛠️ Service provider",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (!isCustomer) Color.White else DeepNavy
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Build,
+                                contentDescription = null,
+                                tint = if (!isCustomer) Color.White else DeepNavy,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Text(
+                                text = "Service provider",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if (!isCustomer) Color.White else DeepNavy
+                            )
+                        }
                     }
                 }
 
@@ -339,7 +364,15 @@ fun AuthScreen(
                             ) {
                                 categories.forEach { cat ->
                                     DropdownMenuItem(
-                                        text = { Text("${cat.icon} ${cat.displayName}") },
+                                        text = { Text(cat.displayName) },
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = cat.icon,
+                                                contentDescription = cat.displayName,
+                                                tint = PrimaryIndigo,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        },
                                         onClick = {
                                             viewModel.onCategoryChange(cat.displayName)
                                             categoryExpanded = false
@@ -428,12 +461,23 @@ fun AuthScreen(
                         .padding(10.dp)
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "💡 Quick Demo Accounts (Tap to fill):",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = DeepNavy
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Info,
+                                contentDescription = null,
+                                tint = PrimaryIndigo,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = "Quick Demo Accounts (Tap to fill):",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = DeepNavy
+                            )
+                        }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "• User: vikas@neighborly.in | pass: password123",

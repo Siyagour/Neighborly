@@ -23,7 +23,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.NearMe
+import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Card
@@ -147,12 +149,23 @@ fun CustomerDiscoveryScreen(
                         .clickable { viewModel.setCategory(category) }
                         .padding(horizontal = 14.dp, vertical = 8.dp)
                 ) {
-                    Text(
-                        text = "${category.icon} ${category.displayName}",
-                        fontSize = 13.sp,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                        color = if (isSelected) Color.White else DeepNavy
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            imageVector = category.icon,
+                            contentDescription = category.displayName,
+                            tint = if (isSelected) Color.White else PrimaryIndigo,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Text(
+                            text = category.displayName,
+                            fontSize = 13.sp,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                            color = if (isSelected) Color.White else DeepNavy
+                        )
+                    }
                 }
             }
         }
@@ -175,12 +188,23 @@ fun CustomerDiscoveryScreen(
                     .clickable { viewModel.toggleDistanceFilter(2.0f) }
                     .padding(horizontal = 10.dp, vertical = 6.dp)
             ) {
-                Text(
-                    text = "📍 < 2 km",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (is2km) Color.White else DeepNavy
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.NearMe,
+                        contentDescription = null,
+                        tint = if (is2km) Color.White else PrimaryIndigo,
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Text(
+                        text = "< 2 km",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (is2km) Color.White else DeepNavy
+                    )
+                }
             }
 
             // Distance < 5 km
@@ -192,12 +216,23 @@ fun CustomerDiscoveryScreen(
                     .clickable { viewModel.toggleDistanceFilter(5.0f) }
                     .padding(horizontal = 10.dp, vertical = 6.dp)
             ) {
-                Text(
-                    text = "📍 < 5 km",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (is5km) Color.White else DeepNavy
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.NearMe,
+                        contentDescription = null,
+                        tint = if (is5km) Color.White else PrimaryIndigo,
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Text(
+                        text = "< 5 km",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (is5km) Color.White else DeepNavy
+                    )
+                }
             }
 
             // Rating 4.8+
@@ -209,12 +244,23 @@ fun CustomerDiscoveryScreen(
                     .clickable { viewModel.toggleRatingFilter(4.8f) }
                     .padding(horizontal = 10.dp, vertical = 6.dp)
             ) {
-                Text(
-                    text = "⭐ 4.8+ Top Rated",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = if (isTopRated) Color.White else DeepNavy
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Star,
+                        contentDescription = null,
+                        tint = if (isTopRated) Color.White else AmberStar,
+                        modifier = Modifier.size(13.dp)
+                    )
+                    Text(
+                        text = "4.8+ Top Rated",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (isTopRated) Color.White else DeepNavy
+                    )
+                }
             }
         }
 
@@ -229,8 +275,15 @@ fun CustomerDiscoveryScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                        imageVector = Icons.Rounded.SearchOff,
+                        contentDescription = null,
+                        tint = TextSecondary,
+                        modifier = Modifier.size(44.dp)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "🔍 No professionals found",
+                        text = "No professionals found",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = DeepNavy

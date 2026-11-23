@@ -12,12 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -153,20 +158,56 @@ fun SlotManagerScreen(
                                     color = if (isBooked) TextSecondary else DeepNavy
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
-                                Text(
-                                    text = when {
-                                        isBooked -> "🔒 Booked"
-                                        isBlocked -> "⛔ Blocked by You"
-                                        else -> "🟢 Open for Booking"
-                                    },
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = when {
-                                        isBooked -> PrimaryIndigo
-                                        isBlocked -> CrimsonRed
-                                        else -> EmeraldGreen
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    when {
+                                        isBooked -> {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Lock,
+                                                contentDescription = null,
+                                                tint = PrimaryIndigo,
+                                                modifier = Modifier.size(13.dp)
+                                            )
+                                            Text(
+                                                text = "Booked",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = PrimaryIndigo
+                                            )
+                                        }
+                                        isBlocked -> {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Block,
+                                                contentDescription = null,
+                                                tint = CrimsonRed,
+                                                modifier = Modifier.size(13.dp)
+                                            )
+                                            Text(
+                                                text = "Blocked by You",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = CrimsonRed
+                                            )
+                                        }
+                                        else -> {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(8.dp)
+                                                    .clip(CircleShape)
+                                                    .background(EmeraldGreen)
+                                            )
+                                            Spacer(modifier = Modifier.width(2.dp))
+                                            Text(
+                                                text = "Open for Booking",
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = EmeraldGreen
+                                            )
+                                        }
                                     }
-                                )
+                                }
                             }
 
                             if (!isBooked) {

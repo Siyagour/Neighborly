@@ -4,8 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +27,7 @@ fun StarRatingBar(
         for (i in 1..maxStars) {
             val isFilled = i <= rating
             Icon(
-                imageVector = if (isFilled) Icons.Default.Star else Icons.Default.StarBorder,
+                imageVector = if (isFilled) Icons.Rounded.Star else Icons.Rounded.StarBorder,
                 contentDescription = "Star $i",
                 tint = if (isFilled) AmberStar else Color(0xFFD1D5DB),
                 modifier = Modifier
@@ -39,4 +39,3 @@ fun StarRatingBar(
         }
     }
 }
-

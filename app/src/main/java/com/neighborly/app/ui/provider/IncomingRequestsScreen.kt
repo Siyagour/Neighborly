@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -37,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.neighborly.app.ui.theme.EmeraldGreen
 import androidx.compose.ui.unit.sp
 import com.neighborly.app.ui.theme.CardBorderStroke
 import com.neighborly.app.ui.theme.CrimsonRed
@@ -86,8 +89,15 @@ fun IncomingRequestsScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            imageVector = Icons.Rounded.CheckCircle,
+                            contentDescription = null,
+                            tint = EmeraldGreen,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "🎉 All caught up!",
+                            text = "All caught up!",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = DeepNavy
@@ -128,7 +138,7 @@ fun IncomingRequestsScreen(
                                             color = DeepNavy
                                         )
                                         Text(
-                                            text = "From ${request.customerName} • 📍 ~1.2 km away",
+                                            text = "From ${request.customerName} • ~1.2 km away",
                                             fontSize = 12.sp,
                                             color = TextSecondary
                                         )

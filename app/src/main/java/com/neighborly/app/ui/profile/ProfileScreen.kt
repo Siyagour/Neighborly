@@ -24,6 +24,9 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Storefront
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -145,14 +148,25 @@ fun ProfileScreen(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .background(if (user.role == "USER") SoftLavender else EmeraldLight)
-                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
-                        Text(
-                            text = if (user.role == "USER") "👤 Customer Account" else "🛠️ Service Provider Account",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (user.role == "USER") PrimaryIndigo else EmeraldGreen
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (user.role == "USER") Icons.Rounded.Person else Icons.Rounded.Build,
+                                contentDescription = null,
+                                tint = if (user.role == "USER") PrimaryIndigo else EmeraldGreen,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = if (user.role == "USER") "Customer Account" else "Service Provider Account",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if (user.role == "USER") PrimaryIndigo else EmeraldGreen
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(18.dp))
@@ -196,12 +210,23 @@ fun ProfileScreen(
                         .border(1.dp, CardBorderStroke, RoundedCornerShape(20.dp))
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
-                        Text(
-                            text = "🛠️ Provider Marketplace Listing",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = DeepNavy
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Storefront,
+                                contentDescription = null,
+                                tint = DeepNavy,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Text(
+                                text = "Provider Marketplace Listing",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = DeepNavy
+                            )
+                        }
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Row(
@@ -348,7 +373,15 @@ fun ProfileScreen(
                             ) {
                                 categories.forEach { cat ->
                                     DropdownMenuItem(
-                                        text = { Text("${cat.icon} ${cat.displayName}") },
+                                        text = { Text(cat.displayName) },
+                                        leadingIcon = {
+                                            Icon(
+                                                imageVector = cat.icon,
+                                                contentDescription = cat.displayName,
+                                                tint = PrimaryIndigo,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        },
                                         onClick = {
                                             editCategory = cat.displayName
                                             categoryDropdownOpen = false
