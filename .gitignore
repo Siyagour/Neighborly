@@ -2,54 +2,82 @@
 # Neighborly Android — .gitignore
 # ============================================================
 
-# ----- Gradle build outputs --------------------------------
+# ----- Built Application & Intermediate Artifacts ----------
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+app/release/
+
+# ----- Gradle build outputs & caches -----------------------
 .gradle/
+*/.gradle/
 build/
+*/build/
 app/build/
 
-# ----- Local machine configuration ------------------------
+# ----- Local Machine Configuration (SDK paths, etc.) -------
 local.properties
 
-# ----- Android Studio / IntelliJ IDEA ---------------------
-# Commit the files Android Studio creates for project config,
-# but NOT volatile per-machine state.
-*.iml
+# ----- Keystore, Signing Keys & Secrets -------------------
+*.jks
+*.keystore
+*.key
+keystore.properties
 
-# Keep: .idea/gradle.xml, .idea/misc.xml, .idea/runConfigurations.xml,
-#        .idea/vcs.xml, .idea/.name, .idea/AndroidProjectSystem.xml,
-#        .idea/compiler.xml — these define the project structure.
-# Ignore: per-machine caches and workspace state.
+# ----- Android Studio & IntelliJ IDEA ----------------------
+# Module files
+*.iml
+*.ipr
+*.iws
+
+# User-specific & volatile IDE state (do NOT commit)
 .idea/workspace.xml
+.idea/**/workspace.xml
 .idea/tasks.xml
+.idea/**/tasks.xml
 .idea/caches/
+.idea/shelf/
+.idea/libraries/
 .idea/assetWizardSettings.xml
 .idea/deploymentTargetSelector.xml
 .idea/navEditor.xml
+.idea/usageTracker.xml
+.idea/render.experimental.xml
 .idea/.DS_Store
 
-# ----- Keystore & signing secrets -------------------------
-*.jks
-*.keystore
-keystore.properties
+# Note: The following shared project files remain tracked:
+# .idea/gradle.xml, .idea/misc.xml, .idea/compiler.xml,
+# .idea/runConfigurations/, .idea/vcs.xml, .idea/AndroidProjectSystem.xml
 
-# ----- Release APKs / AABs (keep debug for QA if needed) --
-app/release/
-*.apk
-*.aab
-
-# ----- Profiling & memory dumps ----------------------------
+# ----- Android Studio Profiler, Captures & Native ----------
 *.hprof
 captures/
 .navigation/
+.cxx/
+cmakeBuild/
 
-# ----- OS-generated junk -----------------------------------
+# ----- Logs & Diagnostic Reports ---------------------------
+*.log
+lint/
+reports/
+
+# ----- OS-Generated Junk -----------------------------------
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+ehthumbs.db
 desktop.ini
 
-# ----- Merge / patch artifacts -----------------------------
+# ----- Merge & Patch Artifacts -----------------------------
 *.orig
 *.rej
+*~
 
-# ----- Kotlin scratch / temp files -------------------------
+# ----- Kotlin Scratch / Temp Files -------------------------
 *.kts.iml
