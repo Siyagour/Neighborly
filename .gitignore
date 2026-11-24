@@ -1,6 +1,55 @@
+# ============================================================
+# Neighborly Android — .gitignore
+# ============================================================
+
+# ----- Gradle build outputs --------------------------------
+.gradle/
+build/
+app/build/
+
+# ----- Local machine configuration ------------------------
+local.properties
+
+# ----- Android Studio / IntelliJ IDEA ---------------------
+# Commit the files Android Studio creates for project config,
+# but NOT volatile per-machine state.
 *.iml
-.gradle
-/local.properties
-/.idea
-/build
-/app/build
+
+# Keep: .idea/gradle.xml, .idea/misc.xml, .idea/runConfigurations.xml,
+#        .idea/vcs.xml, .idea/.name, .idea/AndroidProjectSystem.xml,
+#        .idea/compiler.xml — these define the project structure.
+# Ignore: per-machine caches and workspace state.
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/caches/
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetSelector.xml
+.idea/navEditor.xml
+.idea/.DS_Store
+
+# ----- Keystore & signing secrets -------------------------
+*.jks
+*.keystore
+keystore.properties
+
+# ----- Release APKs / AABs (keep debug for QA if needed) --
+app/release/
+*.apk
+*.aab
+
+# ----- Profiling & memory dumps ----------------------------
+*.hprof
+captures/
+.navigation/
+
+# ----- OS-generated junk -----------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----- Merge / patch artifacts -----------------------------
+*.orig
+*.rej
+
+# ----- Kotlin scratch / temp files -------------------------
+*.kts.iml
